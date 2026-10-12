@@ -38,39 +38,20 @@ REPORT_PATH = REPO_ROOT / "submission" / "phase0_report.json"
 # Functions YOU implement
 # --------------------------------------------------------------------------- #
 def parse_gcloud_config(raw: str) -> dict:
-    """Parse the JSON emitted by ``gcloud config list --format=json``.
-
-    Return ``{"account": <str>, "project": <str>}`` using empty strings when a
-    value is absent. The relevant fields live under the ``"core"`` section, e.g.::
-
-        {"core": {"account": "you@example.com", "project": "my-proj-123"}}
-
-    Args:
-        raw: the raw stdout string from the gcloud command (may be empty).
-    """
-    # TODO: parse `raw` as JSON and return {"account": ..., "project": ...}
-    #       from the "core" section. Return empty strings if raw is empty or a
-    #       field is missing.
-    raise NotImplementedError("Phase 0: implement parse_gcloud_config()")
+    config = json.loads(raw) if raw.strip() else {}
+    core = config.get("core", {})
+    return {"account": core.get("account", ""), "project": core.get("project", "")}
 
 
 def parse_repo_slug(remote_url: str) -> str:
-    """Turn a GitHub remote URL into an ``owner/repo`` slug (no ``.git`` suffix).
-
-    Must handle both forms git prints:
-
-      * HTTPS: ``https://github.com/eurecom/clouds-lab.git``  -> ``eurecom/clouds-lab``
-      * SSH:   ``git@github.com:eurecom/clouds-lab.git``      -> ``eurecom/clouds-lab``
-
-    Return ``""`` if the URL is empty or not a github.com URL.
-
-    Args:
-        remote_url: output of ``git remote get-url origin`` (may be empty).
-    """
-    # TODO: return "owner/repo" for both the HTTPS and SSH forms shown above.
-    #       Strip any trailing ".git". Return "" if not a github.com URL.
-    raise NotImplementedError("Phase 0: implement parse_repo_slug()")
-
+    remote_url = remote_url.strip()
+    for prefix in ("https://github.com/", "git@github.com:"):
+        if remote_url.startswith(prefix):
+            slug = remote_url[len(prefix):].removesuffix(".git")
+            parts = slug.split("/")
+            if len(parts) == 2 and all(parts):
+                return slug
+    return ""
 
 # --------------------------------------------------------------------------- #
 # Provided probes (do not modify)
