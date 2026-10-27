@@ -1,0 +1,30 @@
+{
+  "phase": "2",
+  "environment": {
+    "colab": true
+  },
+  "attention": {
+    "naive_ms": 797.956,
+    "vectorized_ms": 19.948,
+    "speedup": 40.0
+  },
+  "threads": {
+    "1": 2419.031,
+    "2": 2088.885,
+    "4": 2305.2,
+    "8": 2440.896
+  },
+  "devices": {
+    "cpu_ms": 451451.1,
+    "gpu_ms": 13387.3
+  },
+  "training": {
+    "steps": 2000,
+    "final_loss": 1.4971,
+    "param_count": 4935680
+  },
+  "sample": "\nKING RICHARD II:\nConjeaus! vily my lessible I drawn it fence\nAll please perised hath senfits to me?\n\nMARCIUS:\nTo left gullan'd son no it.\n\nTYRUS:\nSo it tar thy maidag to the priseler of allewic,\nYou h",
+  "model": {
+    "gcs_url": "https://storage.googleapis.com/eurecomgpt-511407-eurecomgpt/model.safetensors"
+  }
+}
